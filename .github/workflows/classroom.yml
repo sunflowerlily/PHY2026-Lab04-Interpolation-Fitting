@@ -8,6 +8,53 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Guard protected files
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          import sys
+
+          protected_files = {
+              ".github/workflows/classroom.yml",
+              "lab1_core/tests/test_core.py",
+              "lab2_bonus/tests/test_bonus.py",
+          }
+
+          event_name = os.getenv("GITHUB_EVENT_NAME", "")
+          event_path = os.getenv("GITHUB_EVENT_PATH", "")
+
+          with open(event_path, "r", encoding="utf-8") as f:
+              event = json.load(f)
+
+          if event_name == "pull_request":
+              base = event["pull_request"]["base"]["sha"]
+              head = event["pull_request"]["head"]["sha"]
+          else:
+              base = event.get("before")
+              head = event.get("after")
+
+          if base and base != "0" * 40:
+              cmd = ["git", "diff", "--name-only", base, head]
+          else:
+              cmd = ["git", "show", "--pretty=", "--name-only", head]
+
+          changed = [line.strip() for line in subprocess.check_output(cmd, text=True).splitlines() if line.strip()]
+          violated = sorted(set(changed).intersection(protected_files))
+
+          if violated:
+              print("Detected edits to protected files:")
+              for f in violated:
+                  print(f"- {f}")
+              print("Please revert these file changes before submission.")
+              sys.exit(1)
+
+          print("Protected file check passed.")
+          PY
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
