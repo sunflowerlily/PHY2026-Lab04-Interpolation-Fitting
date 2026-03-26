@@ -25,9 +25,7 @@
 - **位置**: `lab1_core/src/resonance_fit.py`
 - **背景**: 实验室测得了一组中子共振截面数据，需要从中提取共振峰位置 $E_r$ 和半高全宽 $\Gamma$。截面服从 Breit-Wigner 分布：
   
-  $$
-  f(E)=\frac{f_r}{(E-E_r)^2+\Gamma^2/4}
-  $$
+  $$f(E)=\frac{f_r}{(E-E_r)^2+\Gamma^2/4}$$
 
 - **目标**: 使用 `scipy.optimize.curve_fit` 实现非线性拟合，并返回物理参数。
 **提示：**
