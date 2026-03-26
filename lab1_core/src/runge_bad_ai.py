@@ -12,9 +12,10 @@ def bad_ai_interpolation():
     x_test = 4.5
     y_true = true_physics_function(x_test)
     
-    # 学生修复后的代码
-    spline_interpolator = interp1d(x_data, y_data, kind='cubic')
-    y_pred = spline_interpolator(x_test)
+    # TODO 1: 将插值方法替换为更稳定的方案（推荐 cubic spline）
+    spline_interpolator = None
+    # TODO 2: 计算 x_test 处预测值
+    y_pred = None
     
     error = abs(y_pred - y_true)
     return error

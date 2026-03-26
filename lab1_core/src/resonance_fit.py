@@ -3,7 +3,8 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
 def breit_wigner(E, f_r, E_r, Gamma):
-    return f_r / ((E - E_r)**2 + Gamma**2 / 4)
+    # TODO 1: 实现 Breit-Wigner 公式
+    return None
 
 def fit_resonance_data():
     E_data = np.array([0, 25, 50, 75, 100, 125, 150, 175, 200], dtype=float)
@@ -11,8 +12,8 @@ def fit_resonance_data():
     
     initial_guess = [100000, 75, 50]
     
-    # 学生修复后的代码
-    popt, pcov = curve_fit(breit_wigner, E_data, g_data, p0=initial_guess)
+    # TODO 2: 使用 curve_fit 完成非线性拟合
+    popt, pcov = None, None
     
     if popt is not None:
         f_r_fit, E_r_fit, Gamma_fit = popt

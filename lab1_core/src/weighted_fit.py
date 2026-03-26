@@ -14,8 +14,8 @@ def weighted_fit():
     
     popt_unweighted, _ = curve_fit(breit_wigner, E_data, g_data, p0=initial_guess)
     
-    # 学生修复后的代码
-    popt_weighted, pcov_weighted = curve_fit(breit_wigner, E_data, g_data, p0=initial_guess, sigma=err, absolute_sigma=True)
+    # TODO 1: 在 curve_fit 中加入 sigma 与 absolute_sigma=True 完成加权拟合
+    popt_weighted, pcov_weighted = None, None
     
     if popt_weighted is not None:
         return popt_unweighted, popt_weighted
